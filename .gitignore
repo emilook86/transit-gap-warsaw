@@ -205,3 +205,14 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# NEWLY ADDED GITIGNORE'S
+
+# MAC
+.DS_Store
+Thumbs.db
+
+# PROJECT
+data/cache/
+data/processed/
+artifacts/logs/
