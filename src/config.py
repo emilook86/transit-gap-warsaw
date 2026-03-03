@@ -8,16 +8,20 @@ DATA_PROCESSED = PROJECT_ROOT / "data" / "processed"
 MODELS_DIR = PROJECT_ROOT / "models"
 ARTIFACTS_DIR = PROJECT_ROOT / "artifacts"
 
-# Warsaw Bounds
+# Ochota District Bounds
 
-WARSAW_BOUNDS = {
-    "min_lat": 52.12, # south
-    "max_lat": 52.33, # north
-    "min_lon": 20.85, # west
-    "max_lon": 21.18 # east
+OCHOTA_BOUNDS = {
+    "min_lat": 52.2,  # south
+    "max_lat": 52.23,  # north
+    "min_lon": 20.94,  # west
+    "max_lon": 21,  # east
 }
 
 # Model Constants
 
 RANDOM_SEED = 42
 TEST_SIZE = 0.3
+
+
+if __name__ == "__main__":
+    print(f"The project dir is: {PROJECT_ROOT}")
