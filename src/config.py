@@ -17,6 +17,14 @@ OCHOTA_BOUNDS = {
     "max_lon": 21,  # east
 }
 
+# Amenities to be found
+
+AMENITY_TAGS = {
+    "shop_related": {"shop": ["supermarket", "grocery", "mall", "cosmetics", "books", "bakery"]},
+    "hospital_related": {"amenity": ["hospital", "veterinary", "nursing_home", "pharmacy", "doctors", "clinic", "dentist"]},
+    "school_related": {"amenity": ["kindergarten", "school", "college", "university", "music_school", "dancing_school"]},
+}
+
 # Model Constants
 
 RANDOM_SEED = 42
