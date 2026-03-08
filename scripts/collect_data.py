@@ -14,7 +14,7 @@ def main():
     df = collect_data_for_stops(
         stops,
         output_path="data/processed/ochota_stops_with_amenities.csv",
-        save_every=3,
+        save_every=10,
     )
     print(f"\nResult:\n{df.head()}")
 

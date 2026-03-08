@@ -213,5 +213,6 @@ __marimo__/
 Thumbs.db
 
 # PROJECT
-data/
+data/cache
+data/raw
 artifacts/logs/
