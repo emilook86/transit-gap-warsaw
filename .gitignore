@@ -215,4 +215,5 @@ Thumbs.db
 # PROJECT
 data/cache
 data/raw
+!data/raw/.gitkeep
 artifacts/logs/
