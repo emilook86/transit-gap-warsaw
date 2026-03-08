@@ -12,6 +12,7 @@ ox.settings.use_cache = True
 ox.settings.cache_folder = "data/cache/osm"
 ox.settings.timeout = 30
 
+
 class RateLimiter:
     """Prevents overwhelming OSM servers."""
 
@@ -38,10 +39,9 @@ def get_amenity_count(
     tags=AMENITY_TAGS,
     radius=WALKING_RADIUS_METERS,
     limiter: None | RateLimiter = None,
-    max_retries=10,
+    max_retries=6,
     base_delay=0.5,
 ) -> int:
-    
     """Get counts for all amenity types at a location."""
 
     for attempt in range(max_retries):
@@ -52,9 +52,12 @@ def get_amenity_count(
             amenities = ox.features_from_point((lat, lon), tags=tags, dist=radius)
             return len(amenities)
 
+        except ox._errors.InsufficientResponseError:
+            return 0
+
         except Exception as e:
             if attempt < max_retries - 1:
-                delay = base_delay * (3 ** attempt)
+                delay = base_delay * (3**attempt)
                 log.warning(f"Attempt {attempt + 1} failed: {e}. Retrying in {delay}s")
                 time.sleep(delay)
             else:
