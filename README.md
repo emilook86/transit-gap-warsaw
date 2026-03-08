@@ -1,5 +1,6 @@
 # transit-gap-warsaw
 Transit Gap Warsaw Project
+Data source: ZTM Warszawa. GTFS prepared by Mikołaj Kuranowski. Bus shapes OpenStreetMap contributors (ODbL). https://mkuran.pl/gtfs/
 
 ## Initial setup
 
