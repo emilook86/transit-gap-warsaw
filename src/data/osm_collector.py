@@ -39,7 +39,7 @@ def get_amenity_count(
     tags=AMENITY_TAGS,
     radius=WALKING_RADIUS_METERS,
     limiter: None | RateLimiter = None,
-    max_retries=6,
+    max_retries=5,
     base_delay=0.5,
 ) -> int:
     """Get counts for all amenity types at a location."""
