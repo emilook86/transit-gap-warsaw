@@ -31,7 +31,3 @@ WALKING_RADIUS_METERS = 500
 
 RANDOM_SEED = 42
 TEST_SIZE = 0.3
-
-
-if __name__ == "__main__":
-    print(f"The project dir is: {PROJECT_ROOT}")
