@@ -6,7 +6,7 @@ from src.features.engineering import (
     prepare_model_data,
 )
 from src.models.train import train_model, save_model
-from src.config import LOG_DIR
+from src.config import DATA_PROCESSED, LOG_DIR
 
 
 logging.basicConfig(
@@ -23,7 +23,7 @@ log = logging.getLogger("train_model")
 
 def main():
     log.info("=== START ===")
-    df = pd.read_csv("data/processed/ochota_stops_with_amenities.csv")
+    df = pd.read_csv(DATA_PROCESSED / "ochota_stops_with_amenities.csv")
 
     df = create_features(df)
     df = create_gap_label(df)
