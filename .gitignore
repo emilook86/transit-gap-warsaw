@@ -216,5 +216,6 @@ Thumbs.db
 data/cache
 data/raw/*
 !data/raw/.gitkeep
-artifacts/logs/
+artifacts/logs/*
+!artifacts/logs/.gitkeep
 notebooks/*/cache/
