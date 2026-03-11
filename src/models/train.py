@@ -33,10 +33,10 @@ def train_model(
     log.info(f"Train: {len(X_train)}, Test: {len(X_test)}")
 
     model = xgb.XGBClassifier(
-        n_estimators=100,
-        max_depth=4,
+        n_estimators=10,
+        max_depth=3,
         learning_rate=0.1,
-        min_child_weight=3,
+        min_child_weight=2,
         random_state=random_state,
         eval_metric="auc",
     )
