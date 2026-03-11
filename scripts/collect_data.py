@@ -22,7 +22,7 @@ def main():
 
     df = collect_data_for_stops(
         stops,
-        output_path=DATA_PROCESSED/"ochota_stops_with_amenities.csv",
+        output_path=DATA_PROCESSED / "ochota_stops_with_amenities.csv",
         save_every=10,
     )
 
