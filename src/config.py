@@ -1,4 +1,5 @@
 from pathlib import Path
+import logging
 
 # Paths
 
@@ -7,6 +8,7 @@ DATA_RAW = PROJECT_ROOT / "data" / "raw"
 DATA_PROCESSED = PROJECT_ROOT / "data" / "processed"
 MODELS_DIR = PROJECT_ROOT / "artifacts" / "models"
 ARTIFACTS_DIR = PROJECT_ROOT / "artifacts"
+LOG_DIR = PROJECT_ROOT / "artifacts" / "logs"
 
 # Ochota District Bounds
 
@@ -31,3 +33,28 @@ WALKING_RADIUS_METERS = 500
 
 RANDOM_SEED = 42
 TEST_SIZE = 0.3
+
+# Add setup logging
+
+
+def setup_logging(level: str = "INFO", log_file: Path = LOG_DIR / "scripts.log"):
+    """Call this ONCE at the start of scripts."""
+    logger = logging.getLogger("transit_gap")
+    logger.setLevel(getattr(logging, level))
+
+    if logger.handlers:
+        return logger
+
+    fmt = logging.Formatter(
+        "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
+        datefmt="%H:%M:%S",
+    )
+
+    # Remove console handler - only add file handler
+    if log_file:
+        log_file.parent.mkdir(parents=True, exist_ok=True)
+        fh = logging.FileHandler(log_file)
+        fh.setFormatter(fmt)
+        logger.addHandler(fh)
+
+    return logger

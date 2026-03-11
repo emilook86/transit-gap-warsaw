@@ -1,16 +1,22 @@
 import logging
 import pandas as pd
 from src.data.osm_collector import collect_data_for_stops
-
+from src.config import LOG_DIR
 
 logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s"
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(message)s",
+    handlers=[
+        logging.FileHandler(LOG_DIR / "collect_data.log"),
+        logging.StreamHandler(),
+    ],
 )
 
 log = logging.getLogger("collect_data")
 
 
 def main():
+    log.info("=== START ===")
     stops = pd.read_csv("data/processed/ochota_stops.csv")
     log.info(f"Loaded {len(stops)} stops")
 
@@ -20,7 +26,9 @@ def main():
         save_every=10,
     )
 
-    log.info(f"\nResult:\n{df.head()}")
+    log.info("Result:")
+    log.info(df.head())
+    log.info("=== END ===")
 
 
 if __name__ == "__main__":

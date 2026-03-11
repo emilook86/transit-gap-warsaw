@@ -27,7 +27,7 @@ def test_train_returns_metrics(sample_data):
 
     assert "accuracy" in metrics
     assert "f1" in metrics
-    assert 0 <= metrics["accuracy"] 
+    assert 0 <= metrics["accuracy"]
     assert metrics["accuracy"] <= 1
 
 

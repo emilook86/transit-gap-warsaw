@@ -6,15 +6,23 @@ from src.features.engineering import (
     prepare_model_data,
 )
 from src.models.train import train_model, save_model
+from src.config import LOG_DIR
+
 
 logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s"
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(message)s",
+    handlers=[
+        logging.FileHandler(LOG_DIR / "train_model.log"),
+        logging.StreamHandler(),
+    ],
 )
 
 log = logging.getLogger("train_model")
 
 
 def main():
+    log.info("=== START ===")
     df = pd.read_csv("data/processed/ochota_stops_with_amenities.csv")
 
     df = create_features(df)
@@ -26,11 +34,12 @@ def main():
 
     model, metrics = train_model(X, y)
 
-    log.info("\nResults:\n")
+    log.info("Results:")
     for metric, value in metrics.items():
         log.info(f"{metric}: {value:.3f}")
 
     save_model(model, metrics, X.columns.tolist())
+    log.info("=== END ===")
 
 
 if __name__ == "__main__":
