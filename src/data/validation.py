@@ -1,7 +1,8 @@
 import logging
 import pandas as pd
+from src.config import OCHOTA_BOUNDS
 
-log = logging.getLogger("transit_gap.data.validation")
+log = logging.getLogger("src.data.validation")
 
 
 class DataValidationError(Exception):
@@ -55,3 +56,28 @@ def validate_amenity_data(df) -> pd.DataFrame:
 
     log.info(f"Amenity validation passed: {len(df)} rows")
     return df
+
+
+def validate_coordinates(lat, lon) -> tuple[bool, str]:
+    """Validate if coordinates are within Ochota bounds."""
+    if lat <= OCHOTA_BOUNDS["min_lat"]:
+        return (
+            False,
+            f"Latitude {lat:.6f} is too small (must be > {OCHOTA_BOUNDS['min_lat']})",
+        )
+    if lat >= OCHOTA_BOUNDS["max_lat"]:
+        return (
+            False,
+            f"Latitude {lat:.6f} is too large (must be < {OCHOTA_BOUNDS['max_lat']})",
+        )
+    if lon <= OCHOTA_BOUNDS["min_lon"]:
+        return (
+            False,
+            f"Longitude {lon:.6f} is too small (must be > {OCHOTA_BOUNDS['min_lon']})",
+        )
+    if lon >= OCHOTA_BOUNDS["max_lon"]:
+        return (
+            False,
+            f"Longitude {lon:.6f} is too large (must be < {OCHOTA_BOUNDS['max_lon']})",
+        )
+    return True, ""

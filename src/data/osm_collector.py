@@ -38,7 +38,7 @@ def get_amenity_count(
     lon,
     tags=AMENITY_TAGS,
     radius=WALKING_RADIUS_METERS,
-    limiter: None | RateLimiter = None,
+    limiter: RateLimiter = base_limiter,
     max_retries=5,
     base_delay=0.5,
 ) -> int:
