@@ -1,4 +1,5 @@
-# 1. test osm responsibility
-# 2. test if model path is correct
-# 3. test loading model
-# 4. test coordinates
+from scripts.predict import model
+
+
+def test_model_existence():
+    assert model.get_params() is not None
