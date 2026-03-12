@@ -27,6 +27,8 @@ uv run scripts/predict.py <LATITUDE> <LONGITUDE>
 
 ## Usage Examples
 
+Click [here](https://www.latlong.net/convert-address-to-lat-long.html) in order to easily check coordinates of a given place on the map.
+
 ```bash
 # Basic prediction
 uv run scripts/predict.py 52.215 20.97
