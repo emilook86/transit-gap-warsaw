@@ -1,25 +1,60 @@
-# transit-gap-warsaw
-Transit Gap Warsaw Project
+# Transit Gap Ochota District
 
-The goal of the project is to predict whether a given place in Ochota District of Warsaw provides a proper access to shops, schools and hospitals.
+A lightweight CLI tool that predicts whether there are enough schools, hospitals, and shops within walking distance of any location in Warsaw's Ochota district.
 
-Data source: ZTM Warszawa. GTFS prepared by Mikołaj Kuranowski. Bus shapes OpenStreetMap contributors (ODbL). https://mkuran.pl/gtfs/
+## Quick Start
 
-## Setup
+```bash
+# Installation
+git clone https://github.com/emilook86/transit-gap-warsaw.git
+cd transit-gap-warsaw
+uv sync
 
-1. Clone the repositorium.
+# Activate environment
+# macOS/Linux:
+source .venv/bin/activate
+# Windows:
+.venv\Scripts\Activate.ps1
 
-2. Install uv if it not yet installed (check: https://docs.astral.sh/uv/ for installation instructions).
+# Run prediction (default: 5 amenities within 500m)
+uv run scripts/predict.py <LATITUDE> <LONGITUDE>
+```
 
-3. Use command "uv sync" inside the cloned repo and activate the venv:
+## Usage Examples
 
-- on macOS/Linux: "source .venv/bin/activate"
+```bash
+# Basic prediction
+uv run scripts/predict.py 52.215 20.97
 
-- on Windows: ".venv\Scripts\Activate.ps1"
+# Describe mode - shows actual counts and verifies prediction
+uv run scripts/predict.py --describe 52.21 20.96
 
-## Instructions
+# Show help
+uv run scripts/predict.py --help
+```
 
-1. Check out the coordinates of the place you want to search (for example from here: https://www.latlong.net/
-convert-address-to-lat-long.html).
+## Configuration
 
-2. Run the command "uv run scripts/predict.py <LAT_COORDINATE> <LON_COORDINATE>" to find out whether there are lots of schools, shops and hospitals around that place. You can add the flag "--help" for instructions, and "--details" for more details.
+Edit `src/config.py` to modify defaults:
+
+- `WALKING_RADIUS_METERS = 500`
+- `MIN_NUMBER_OF_AMENITIES_FOR_TRUE = 5`
+
+## Requirements
+
+- [uv](https://docs.astral.sh/uv/) package manager
+- Linux, macOS, or Windows
+
+## Documentation
+
+Detailed project documentation is available in the repository.
+
+```
+docs/transit_gap_documentation.pdf
+```
+
+## Data Sources
+
+- **GTFS data**: ZTM Warszawa, prepared by Mikołaj Kuranowski
+- **Amenities**: OpenStreetMap contributors (ODbL)
+- **License**: MIT
