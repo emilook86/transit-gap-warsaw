@@ -2,6 +2,11 @@
 
 A lightweight CLI tool that predicts whether there are enough schools, hospitals, and shops within walking distance of any location in Warsaw's Ochota district.
 
+## Requirements
+
+- [uv](https://docs.astral.sh/uv/) package manager
+- Linux, macOS, or Windows
+
 ## Quick Start
 
 ```bash
@@ -39,11 +44,6 @@ Edit `src/config.py` to modify defaults:
 
 - `WALKING_RADIUS_METERS = 500`
 - `MIN_NUMBER_OF_AMENITIES_FOR_TRUE = 5`
-
-## Requirements
-
-- [uv](https://docs.astral.sh/uv/) package manager
-- Linux, macOS, or Windows
 
 ## Documentation
 
