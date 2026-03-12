@@ -49,11 +49,7 @@ Edit `src/config.py` to modify defaults:
 
 ## Documentation
 
-Detailed project documentation is available in the repository.
-
-```
-docs/transit_gap_documentation.pdf
-```
+Detailed project documentation is available in the repository can be found under [docs/transit_gap_documentation.pdf](https://github.com/emilook86/transit-gap-warsaw/blob/main/docs/transit_gap_documentation.pdf).
 
 ## Data Sources
 
