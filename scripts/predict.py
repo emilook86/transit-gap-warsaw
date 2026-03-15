@@ -88,13 +88,15 @@ def main():
 
     if args.verify:
         try:
-            log.info("Verifying. Fetching data from OpenStreetMap (it might take about one minute)")
+            log.info(
+                "Verifying. Fetching data from OpenStreetMap (it might take about one minute)"
+            )
 
             data_verify = {
-            "stop_id": 1,
-            "stop_name": "name",
-            "stop_lat": args.lat,
-            "stop_lon": args.lon,
+                "stop_id": 1,
+                "stop_name": "name",
+                "stop_lat": args.lat,
+                "stop_lon": args.lon,
             }
 
             results = get_all_amenity_counts(args.lat, args.lon)
@@ -119,7 +121,6 @@ def main():
 
         except Exception as e:
             log.error(f"Error during prediction: {e}")
-
 
         sys.exit(1)
 
