@@ -22,7 +22,6 @@ log = logging.getLogger("train_model")
 
 
 def main():
-    log.info("=== START ===")
     df = pd.read_csv(DATA_PROCESSED / "ochota_stops_with_amenities.csv")
 
     df = create_features(df)
@@ -36,10 +35,9 @@ def main():
 
     log.info("Results:")
     for metric, value in metrics.items():
-        log.info(f"{metric}: {value:.3f}")
+        log.info(f"{metric}: {value}")
 
     save_model(model, metrics, X.columns.tolist())
-    log.info("=== END ===")
 
 
 if __name__ == "__main__":

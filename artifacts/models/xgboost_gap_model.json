@@ -1,13 +1,20 @@
 {
-  "saved_at": "2026-03-15T20:51:05.737512",
+  "saved_at": "2026-03-15T23:28:09.351281",
   "metrics": {
-    "accuracy": 0.8939393939393939,
-    "precision": 0.9333333333333333,
+    "accuracy": 0.9090909090909091,
+    "precision": 0.9545454545454546,
     "recall": 0.9130434782608695,
-    "f1": 0.9230769230769231,
-    "roc_auc": 0.8815217391304347,
-    "cv_roc_auc_mean": 0.8487291740517546,
-    "cv_roc_auc_std": 0.12065700700854906
+    "f1": 0.9333333333333333,
+    "roc_auc": 0.9581521739130435,
+    "best_params": {
+      "learning_rate": 0.05,
+      "max_depth": 4,
+      "min_child_weight": 2,
+      "n_estimators": 100
+    },
+    "best_cv_score": 0.9742328042328043,
+    "cv_roc_auc_mean": 0.8870950017724212,
+    "cv_roc_auc_std": 0.09075416858530724
   },
   "features": [
     "stop_lat",
@@ -42,7 +49,7 @@
     "max_cat_threshold": null,
     "max_cat_to_onehot": null,
     "max_delta_step": null,
-    "max_depth": 3,
+    "max_depth": 4,
     "max_leaves": null,
     "min_child_weight": 2,
     "missing": NaN,

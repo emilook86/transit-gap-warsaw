@@ -4,7 +4,7 @@ from datetime import datetime
 
 import joblib
 import pandas as pd
-from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
 from sklearn.metrics import (
     accuracy_score,
     precision_score,
@@ -25,39 +25,55 @@ def train_model(
     test_size: float = TEST_SIZE,
     random_state: int = RANDOM_SEED,
 ) -> tuple:
-    """Train XGBoost, return (model, metrics)."""
+    """Train XGBoost with hyperparameter grid search, return (best_model, metrics)."""
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=test_size, random_state=random_state, stratify=y
     )
 
     log.info(f"Train: {len(X_train)}, Test: {len(X_test)}")
 
-    model = xgb.XGBClassifier(
-        n_estimators=100,
-        max_depth=3,
-        learning_rate=0.05,
-        min_child_weight=2,
-        random_state=random_state,
-        eval_metric="auc",
-    )
-    model.fit(X_train, y_train)
+    model = xgb.XGBClassifier(random_state=random_state, eval_metric="auc")
 
-    y_pred = model.predict(X_test)
+    param_grid = {
+        'n_estimators': [50, 100, 200],
+        'max_depth': [3, 4, 5],
+        'learning_rate': [0.01, 0.05, 0.1],
+        'min_child_weight': [1, 2, 3],
+    }
+
+    log.info("Starting grid search")
+    grid_search = GridSearchCV(
+        estimator=model,
+        param_grid=param_grid,
+        cv=5,
+        scoring='roc_auc'
+    )
+    
+    grid_search.fit(X_train, y_train)
+    
+    best_model = grid_search.best_estimator_
+    log.info(f"Best parameters: {grid_search.best_params_}")
+    log.info(f"Best cross-validation score: {grid_search.best_score_:.4f}")
+
+    y_pred = best_model.predict(X_test)
+    y_pred_proba = best_model.predict_proba(X_test)[:, 1]
 
     metrics = {
         "accuracy": float(accuracy_score(y_test, y_pred)),
         "precision": float(precision_score(y_test, y_pred)),
         "recall": float(recall_score(y_test, y_pred)),
         "f1": float(f1_score(y_test, y_pred)),
-        "roc_auc": float(roc_auc_score(y_test, y_pred)),
+        "roc_auc": float(roc_auc_score(y_test, y_pred_proba)),
+        "best_params": grid_search.best_params_,
+        "best_cv_score": float(grid_search.best_score_),
     }
 
-    cv = cross_val_score(model, X, y, cv=5, scoring="roc_auc")
+    cv = cross_val_score(best_model, X, y, cv=5, scoring="roc_auc")
     metrics["cv_roc_auc_mean"] = float(cv.mean())
     metrics["cv_roc_auc_std"] = float(cv.std())
 
-    log.info(f"Metrics: {metrics}")
-    return model, metrics
+    log.info(f"Test metrics: {metrics}")
+    return best_model, metrics
 
 
 def save_model(model, metrics: dict, features: list):
