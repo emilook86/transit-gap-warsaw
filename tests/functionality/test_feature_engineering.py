@@ -18,7 +18,7 @@ def test_create_features_adds_columns():
     result = create_features(df)
     assert "cube_stop_lat" in result.columns
     assert "cube_stop_lon" in result.columns
-    assert "all_amenities_count" in result.columns
+    assert "lat_times_lon" in result.columns
 
 
 def test_target_when_no_amenity():

@@ -14,9 +14,11 @@ def sample_data():
             "shop_related_count": [5, 15] * 50,
             "hospital_related_count": [6, 14] * 50,
             "school_related_count": [4, 17] * 50,
+            "sq_stop_lat": [52.2**2, 52.3**2] * 50,
+            "sq_stop_lon": [20.9**2, 21**2] * 50,
+            "lat_times_lon": [52.2 * 20.9, 52.3 * 21] * 50,
             "cube_stop_lat": [52.2**3, 52.3**3] * 50,
             "cube_stop_lon": [20.9**3, 21**3] * 50,
-            "all_amenities_count": [15, 46] * 50,
         }
     )
 
