@@ -51,9 +51,9 @@ def main():
     parser.add_argument("lat", type=float, help="Latitude (e.g., 52.2297)")
     parser.add_argument("lon", type=float, help="Longitude (e.g., 20.9922)")
     parser.add_argument(
-        "--details",
+        "--verify",
         action="store_true",
-        help="Find if the model actually predicts right the transit gap. \
+        help="Verify whether the model actually predicts right the transit gap. \
             Specifies exact number of all amenities.",
     )
 
@@ -66,47 +66,61 @@ def main():
         sys.exit(1)
 
     log.info(f"Checking location: {args.lat:.6f}, {args.lon:.6f}")
-    log.info("Fetching data from OpenStreetMap (it might take about one minute)")
 
     data = {
-        "stop_id": 1,
-        "stop_name": "name",
         "stop_lat": args.lat,
         "stop_lon": args.lon,
     }
 
-    try:
-        results = get_all_amenity_counts(args.lat, args.lon)
-        data.update(results)
-        df = pd.DataFrame([data])
-        df = create_features(df)
-        df = create_gap_label(df)
-        X, y_true = prepare_model_data(df)
-        y_pred = model.predict(X)
+    X_pred = pd.DataFrame([data])
+    X_pred = create_features(X_pred)
 
-        if y_pred == 1:
-            log.info(
-                "*** The place you have chosen is rich in schools, hospitals and shops ***"
-            )
-        else:
-            log.info(
-                "*** There may be lack of sufficient numbers of schools, hospitals or shops ***"
-            )
+    y_pred = model.predict(X_pred)
 
-        if args.details:
+    if y_pred[0] == 1:
+        log.info(
+            "*** The place you have chosen is rich in schools, hospitals and shops ***"
+        )
+    else:
+        log.info(
+            "*** There may be lack of sufficient numbers of schools, hospitals or shops ***"
+        )
+
+    if args.verify:
+        try:
+            log.info("Verifying. Fetching data from OpenStreetMap (it might take about one minute)")
+
+            data_verify = {
+            "stop_id": 1,
+            "stop_name": "name",
+            "stop_lat": args.lat,
+            "stop_lon": args.lon,
+            }
+
+            results = get_all_amenity_counts(args.lat, args.lon)
+            data_verify.update(results)
+            df = pd.DataFrame([data_verify])
+            df = create_features(df)
+            df = create_gap_label(df)
+            _, y_true = prepare_model_data(df)
+
             log.info("Let's check, whether our prediction matches the actual target")
+
             if y_pred[0] == y_true[0]:
-                log.info("*** It matches! The model predicted correctly ***")
+                log.info("*** It matches. The model predicted correctly ***")
             else:
-                log.info("*** The model predicted wrong. What a pity! ***")
+                log.info("*** The model predicted wrong ***")
 
             log.info("Actual true amenity counts:")
+
             for name in AMENITY_TAGS.keys():
                 count = results.get(f"{name}_count", 0)
-                log.info(f"  {name}: {count}")
+                log.info(f"- {name}: {count}")
 
-    except Exception as e:
-        log.error(f"Error during prediction: {e}")
+        except Exception as e:
+            log.error(f"Error during prediction: {e}")
+
+
         sys.exit(1)
 
 
