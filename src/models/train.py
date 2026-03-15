@@ -25,7 +25,7 @@ def train_model(
     test_size: float = TEST_SIZE,
     random_state: int = RANDOM_SEED,
 ) -> tuple:
-    """Train XGBoost, return (model, X_test, y_test, metrics)."""
+    """Train XGBoost, return (model, metrics)."""
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=test_size, random_state=random_state, stratify=y
     )
@@ -33,9 +33,9 @@ def train_model(
     log.info(f"Train: {len(X_train)}, Test: {len(X_test)}")
 
     model = xgb.XGBClassifier(
-        n_estimators=10,
+        n_estimators=100,
         max_depth=3,
-        learning_rate=0.1,
+        learning_rate=0.05,
         min_child_weight=2,
         random_state=random_state,
         eval_metric="auc",

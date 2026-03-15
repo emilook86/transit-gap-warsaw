@@ -1,23 +1,22 @@
 {
-  "saved_at": "2026-03-11T22:20:19.357132",
+  "saved_at": "2026-03-15T20:51:05.737512",
   "metrics": {
-    "accuracy": 0.9848484848484849,
-    "precision": 0.9787234042553191,
-    "recall": 1.0,
-    "f1": 0.989247311827957,
-    "roc_auc": 0.975,
-    "cv_roc_auc_mean": 0.9960900389932649,
-    "cv_roc_auc_std": 0.005069788728493743
+    "accuracy": 0.8939393939393939,
+    "precision": 0.9333333333333333,
+    "recall": 0.9130434782608695,
+    "f1": 0.9230769230769231,
+    "roc_auc": 0.8815217391304347,
+    "cv_roc_auc_mean": 0.8487291740517546,
+    "cv_roc_auc_std": 0.12065700700854906
   },
   "features": [
     "stop_lat",
     "stop_lon",
-    "shop_related_count",
-    "hospital_related_count",
-    "school_related_count",
+    "sq_stop_lat",
+    "sq_stop_lon",
+    "lat_times_lon",
     "cube_stop_lat",
-    "cube_stop_lon",
-    "all_amenities_count"
+    "cube_stop_lon"
   ],
   "model_type": "XGBClassifier",
   "xgboost_params": {
@@ -38,7 +37,7 @@
     "grow_policy": null,
     "importance_type": null,
     "interaction_constraints": null,
-    "learning_rate": 0.1,
+    "learning_rate": 0.05,
     "max_bin": null,
     "max_cat_threshold": null,
     "max_cat_to_onehot": null,
@@ -49,7 +48,7 @@
     "missing": NaN,
     "monotone_constraints": null,
     "multi_strategy": null,
-    "n_estimators": 10,
+    "n_estimators": 100,
     "n_jobs": null,
     "num_parallel_tree": null,
     "random_state": 42,

@@ -48,7 +48,8 @@ def prepare_model_data(df) -> tuple[pd.DataFrame, pd.Series]:
         "stop_lon",
         "sq_stop_lat",
         "sq_stop_lon",
-        "lat_times_loncube_stop_lat",
+        "lat_times_lon",
+        "cube_stop_lat",
         "cube_stop_lon",
     ]
 
