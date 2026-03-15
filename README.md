@@ -33,7 +33,7 @@ Click [here](https://www.latlong.net/convert-address-to-lat-long.html) in order 
 # Basic prediction
 uv run scripts/predict.py 52.215 20.97
 
-# Details mode - shows actual counts and verifies prediction
+# Verify mode - verifies prediction and shows actual amodities counts
 uv run scripts/predict.py --details 52.21 20.96
 
 # Show help
