@@ -9,16 +9,14 @@ log = logging.getLogger("src.features.engineering")
 def create_features(df) -> pd.DataFrame:
     """Creates additional features: cube of both latitude and longitude, and sum of all amenities."""
     df = df.copy()
+    df["sq_stop_lat"] = df["stop_lat"] ** 2
+    df["sq_stop_lon"] = df["stop_lon"] ** 2
+    df["lat_times_lon"] = df["stop_lat"] * df["stop_lon"]
     df["cube_stop_lat"] = df["stop_lat"] ** 3
     df["cube_stop_lon"] = df["stop_lon"] ** 3
-    df["all_amenities_count"] = (
-        df["shop_related_count"]
-        + df["hospital_related_count"]
-        + df["school_related_count"]
-    )
 
     log.info(
-        "Created columns: 'cube_stop_lat', 'cube_stop_lon', 'all_amenities_count'."
+        "Created columns: 'sq_stop_lat', 'sq_stop_lon', 'lat_times_lon', cube_stop_lat' and 'cube_stop_lon'"
     )
 
     return df
@@ -40,7 +38,7 @@ def create_gap_label(df) -> pd.DataFrame:
 
 def prepare_model_data(df) -> tuple[pd.DataFrame, pd.Series]:
     """Prepare X, y for modeling."""
-    if "all_amenities_count" not in df.columns:
+    if "lat_times_lon" not in df.columns:
         df = create_features(df)
     if "target" not in df.columns:
         df = create_gap_label(df)
@@ -48,12 +46,10 @@ def prepare_model_data(df) -> tuple[pd.DataFrame, pd.Series]:
     feature_cols = [
         "stop_lat",
         "stop_lon",
-        "shop_related_count",
-        "hospital_related_count",
-        "school_related_count",
-        "cube_stop_lat",
+        "sq_stop_lat",
+        "sq_stop_lon",
+        "lat_times_loncube_stop_lat",
         "cube_stop_lon",
-        "all_amenities_count",
     ]
 
     return df[feature_cols], df["target"]
