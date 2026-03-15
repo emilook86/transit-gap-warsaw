@@ -1,7 +1,6 @@
 import json
 import logging
 from datetime import datetime
-
 import joblib
 import pandas as pd
 from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
@@ -35,22 +34,19 @@ def train_model(
     model = xgb.XGBClassifier(random_state=random_state, eval_metric="auc")
 
     param_grid = {
-        'n_estimators': [50, 100, 200],
-        'max_depth': [3, 4, 5],
-        'learning_rate': [0.01, 0.05, 0.1],
-        'min_child_weight': [1, 2, 3],
+        "n_estimators": [50, 100, 200],
+        "max_depth": [3, 4, 5],
+        "learning_rate": [0.01, 0.05, 0.1],
+        "min_child_weight": [1, 2, 3],
     }
 
     log.info("Starting grid search")
     grid_search = GridSearchCV(
-        estimator=model,
-        param_grid=param_grid,
-        cv=5,
-        scoring='roc_auc'
+        estimator=model, param_grid=param_grid, cv=5, scoring="roc_auc"
     )
-    
+
     grid_search.fit(X_train, y_train)
-    
+
     best_model = grid_search.best_estimator_
     log.info(f"Best parameters: {grid_search.best_params_}")
     log.info(f"Best cross-validation score: {grid_search.best_score_:.4f}")
