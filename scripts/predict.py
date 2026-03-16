@@ -1,11 +1,8 @@
 import argparse
 import sys
-from pathlib import Path
 import pandas as pd
 import joblib
 import logging
-
-sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.config import (
     AMENITY_TAGS,
@@ -31,10 +28,7 @@ file_handler.setFormatter(file_formatter)
 console_handler = logging.StreamHandler()
 console_handler.setFormatter(console_formatter)
 
-logging.basicConfig(
-    level=logging.INFO,
-    handlers=[file_handler, console_handler]
-)
+logging.basicConfig(level=logging.INFO, handlers=[file_handler, console_handler])
 
 logging.getLogger("src.data.validation").setLevel(logging.WARNING)
 logging.getLogger("src.features.engineering").setLevel(logging.WARNING)
