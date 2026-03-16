@@ -23,13 +23,17 @@ from src.features.engineering import (
     prepare_model_data,
 )
 
+console_formatter = logging.Formatter("%(message)s")
+file_formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
+
+file_handler = logging.FileHandler(LOG_DIR / "predict.log")
+file_handler.setFormatter(file_formatter)
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(console_formatter)
+
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s | %(levelname)s | %(message)s",
-    handlers=[
-        logging.FileHandler(LOG_DIR / "predict.log"),
-        logging.StreamHandler(),
-    ],
+    handlers=[file_handler, console_handler]
 )
 
 logging.getLogger("src.data.validation").setLevel(logging.WARNING)
@@ -65,7 +69,7 @@ def main():
         log.info("Run with --help for more information")
         sys.exit(1)
 
-    log.info(f"Checking location: {args.lat:.6f}, {args.lon:.6f}")
+    log.info(f"Input location: ({args.lat:.6f}, {args.lon:.6f})")
 
     data = {
         "stop_lat": args.lat,
