@@ -1,5 +1,6 @@
 import logging
 import pandas as pd
+
 from src.features.engineering import (
     create_features,
     create_gap_label,
@@ -7,7 +8,6 @@ from src.features.engineering import (
 )
 from src.models.train import train_model, save_model
 from src.config import DATA_PROCESSED, LOG_DIR
-
 
 logging.basicConfig(
     level=logging.INFO,

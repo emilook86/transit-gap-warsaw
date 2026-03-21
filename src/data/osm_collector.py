@@ -3,6 +3,8 @@ import logging
 import osmnx as ox
 import pandas as pd
 from tqdm import tqdm
+from typing import Dict, List, Optional
+
 from src.config import AMENITY_TAGS, WALKING_RADIUS_METERS
 
 log = logging.getLogger("osm_collector")
@@ -16,12 +18,12 @@ ox.settings.timeout = 30
 class RateLimiter:
     """Prevents overwhelming OSM servers."""
 
-    def __init__(self, delay=1):
-        self.delay = delay
-        self.last_request_time = None
-        self.request_count = 0
+    def __init__(self, delay=1) -> None:
+        self.delay: float = delay
+        self.last_request_time: Optional[float] = None
+        self.request_count: int = 0
 
-    def wait(self):
+    def wait(self) -> None:
         if self.last_request_time is not None:
             elapsed = time.time() - self.last_request_time
             if elapsed < self.delay:
@@ -34,13 +36,13 @@ base_limiter = RateLimiter(delay=1)
 
 
 def get_amenity_count(
-    lat,
-    lon,
-    tags=AMENITY_TAGS,
+    lat: float,
+    lon: float,
+    tags: Dict[str, Dict[str, List[str]]] = AMENITY_TAGS,
     radius=WALKING_RADIUS_METERS,
     limiter: RateLimiter = base_limiter,
-    max_retries=5,
-    base_delay=0.5,
+    max_retries: int = 5,
+    base_delay: float = 0.5,
 ) -> int:
     """Get counts for all amenity types at a location."""
 
@@ -65,7 +67,7 @@ def get_amenity_count(
                 return 0
 
 
-def get_all_amenity_counts(lat, lon) -> dict:
+def get_all_amenity_counts(lat: float, lon: float) -> Dict[str, int]:
     """Get shop / hospital / school counts for a single location.
 
     Returns a dict with keys:
@@ -78,7 +80,9 @@ def get_all_amenity_counts(lat, lon) -> dict:
     return results
 
 
-def collect_data_for_stops(stops_df, output_path, save_every=10) -> pd.DataFrame:
+def collect_data_for_stops(
+    stops_df: pd.DataFrame, output_path: str, save_every: int = 10
+) -> pd.DataFrame:
     """Collect amenity data for all stops. Saves progress periodically."""
     results = []
 

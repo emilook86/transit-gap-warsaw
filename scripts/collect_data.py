@@ -1,6 +1,7 @@
 import logging
 import pandas as pd
 from src.data.osm_collector import collect_data_for_stops
+
 from src.config import DATA_PROCESSED, LOG_DIR
 
 logging.basicConfig(
@@ -16,7 +17,7 @@ log = logging.getLogger("collect_data")
 
 
 def main():
-    log.info("=== START ===")
+    log.info("Start collecting data.")
     stops = pd.read_csv(DATA_PROCESSED / "ochota_stops.csv")
     log.info(f"Loaded {len(stops)} stops")
 
@@ -28,7 +29,7 @@ def main():
 
     log.info("Result:")
     log.info(df.head())
-    log.info("=== END ===")
+    log.info("Collecting data ended.")
 
 
 if __name__ == "__main__":

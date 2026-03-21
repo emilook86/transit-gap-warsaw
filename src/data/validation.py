@@ -1,5 +1,7 @@
 import logging
 import pandas as pd
+from typing import Tuple
+
 from src.config import OCHOTA_BOUNDS
 
 log = logging.getLogger("src.data.validation")
@@ -9,7 +11,7 @@ class DataValidationError(Exception):
     pass
 
 
-def validate_stops(df) -> pd.DataFrame:
+def validate_stops(df: pd.DataFrame) -> pd.DataFrame:
     """Validate GTFS stops data."""
     required = {"stop_id", "stop_name", "stop_lat", "stop_lon"}
     missing = required - set(df.columns)
@@ -25,7 +27,7 @@ def validate_stops(df) -> pd.DataFrame:
     return df
 
 
-def validate_city_name(df) -> pd.DataFrame:
+def validate_city_name(df: pd.DataFrame) -> pd.DataFrame:
     """Validate that it is a Warsaw stop."""
     if "town_name" in df.columns:
         towns = df["town_name"].astype(str).str.strip().str.lower()
@@ -43,7 +45,7 @@ def validate_city_name(df) -> pd.DataFrame:
     return df
 
 
-def validate_amenity_data(df) -> pd.DataFrame:
+def validate_amenity_data(df: pd.DataFrame) -> pd.DataFrame:
     """Validate collected amenity data."""
     count_cols = [c for c in df.columns if c.endswith("_count")]
 
@@ -58,7 +60,7 @@ def validate_amenity_data(df) -> pd.DataFrame:
     return df
 
 
-def validate_coordinates(lat, lon) -> tuple[bool, str]:
+def validate_coordinates(lat: float, lon: float) -> Tuple[bool, str]:
     """Validate if coordinates are within Ochota bounds."""
     if lat <= OCHOTA_BOUNDS["min_lat"]:
         return (

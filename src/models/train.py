@@ -1,6 +1,7 @@
 import json
 import logging
 from datetime import datetime
+from typing import Dict, List, Tuple
 import joblib
 import pandas as pd
 from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
@@ -23,7 +24,7 @@ def train_model(
     y: pd.Series,
     test_size: float = TEST_SIZE,
     random_state: int = RANDOM_SEED,
-) -> tuple:
+) -> Tuple[xgb.XGBClassifier, Dict]:
     """Train XGBoost with hyperparameter grid search, return (best_model, metrics)."""
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=test_size, random_state=random_state, stratify=y
@@ -72,7 +73,7 @@ def train_model(
     return best_model, metrics
 
 
-def save_model(model, metrics: dict, features: list):
+def save_model(model: xgb.XGBClassifier, metrics: Dict, features: List[str]) -> None:
     """Save model + metadata JSON side by side."""
     path = MODELS_DIR / "xgboost_gap_model.joblib"
     path.parent.mkdir(parents=True, exist_ok=True)

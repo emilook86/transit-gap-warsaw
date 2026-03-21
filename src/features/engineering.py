@@ -1,12 +1,13 @@
 import pandas as pd
 import logging
+from typing import Tuple
 
 from src.config import AMENITY_TAGS, MIN_NUMBER_OF_AMENITIES_FOR_TRUE
 
 log = logging.getLogger("src.features.engineering")
 
 
-def create_features(df) -> pd.DataFrame:
+def create_features(df: pd.DataFrame) -> pd.DataFrame:
     """Creates additional features: cube of both latitude and longitude, and sum of all amenities."""
     df = df.copy()
     df["sq_stop_lat"] = df["stop_lat"] ** 2
@@ -22,7 +23,7 @@ def create_features(df) -> pd.DataFrame:
     return df
 
 
-def create_gap_label(df) -> pd.DataFrame:
+def create_gap_label(df: pd.DataFrame) -> pd.DataFrame:
     """Create target: target = 1 if there are at least MIN_NUMBER_OF_AMENITIES_FOR_TRUE amenities of each type."""
 
     df = df.copy()
@@ -36,7 +37,7 @@ def create_gap_label(df) -> pd.DataFrame:
     return df
 
 
-def prepare_model_data(df) -> tuple[pd.DataFrame, pd.Series]:
+def prepare_model_data(df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.Series]:
     """Prepare X, y for modeling."""
     if "lat_times_lon" not in df.columns:
         df = create_features(df)
